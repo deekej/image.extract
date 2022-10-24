@@ -285,15 +285,14 @@ def run_module():
                         # NOTE: The 'dirnames' are ignored on purpose. More info:
                         # https://stackoverflow.com/a/57458550/3481531
                         for dirpath, dirnames, filenames in os.walk(dest):
-                            os.chown(dirpath, uid, gid, follow_symlinks=False)
+                            os.chown(dirpath, uid, gid)
 
                             for filename in filenames:
-                                os.chown(os.path.join(dirpath, filename), uid, gid, follow_symlinks=False)
+                                os.chown(os.path.join(dirpath, filename), uid, gid)
                     else:
-                        os.chown(dest, uid, gid, follow_symlinks=False)
-                except PermissionError:
-                    module.fail_json(msg="failed to change permissions for path: "\
-                                         "%s [operation not permitted]" % os.path.abspath(dest))
+                        os.chown(dest, uid, gid)
+                except Exception as ex:
+                    module.fail_json(msg="failed to change permissions - %s" % ex)
 
             result['changed'] = True
             module.exit_json(**result)
