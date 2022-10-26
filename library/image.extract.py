@@ -179,10 +179,15 @@ def run_module():
         dest = os.path.basename(src)
         result['dest'] = dest
 
+    # By default we extract the file / folder into the same folder as
+    # where the container image is located -- unless the 'chdir'
+    # parameter was used, or the 'dest' parameter is an absolute path...
     if chdir:
         result_dir = chdir
-    else:
+    elif os.path.isabs(dest):
         result_dir = os.path.dirname(dest)
+    else:
+        result_dir = os.path.dirname(image_path)
 
     os.chdir(result_dir)
 
