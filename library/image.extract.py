@@ -12,64 +12,65 @@ module: image.extract
 
 short_description: Extracts the contents of given container image
 
-version_added: "1.0.0"
-
-description: This module extract the specified path from the given container
-             image - without the need to have docker or podman installed...
+description:
+    - This module extract the specified path from the given container image - without the need to have M(docker) or M(podman) installed...
 
 options:
     image:
         description:
             - Path to the container image that should be extracted.
-            - Both compressed (tar.gz) and uncompressed (tar) images are supported.
+            - Both compressed (M(tar.gz)) and uncompressed (M(tar)) images are supported.
         required: true
-        type: str
+        default: null
+        type: string
 
     src:
-        description: Path to the file / folder inside the container that needs
-                     to be extracted.
+        description:
+          - Path to the file / folder inside the container that needs to be extracted.
         required: true
-        type: str
+        default: null
+        type: path
 
     dest:
         description:
             - Path where the extracted file / folder should be placed.
-            - If no full path is used, then specifies the requested name
-              of extracted file / folder.
-            - If omitted, then basename of 'src' option is used as the
-              extracted file / folder name.
-            - Full path can't be used together with 'chdir' option.
+            - If no full path is used, then specifies the requested name of extracted file / folder.
+            - If omitted, then M(basename) of M(src) option is used as the extracted file / folder name.
+            - Full path can't be used together with M(chdir) option.
         required: false
-        type: str
+        default: null
+        type: path
 
     chdir:
         description:
-            - Directory to change into where the extracted file / folder
-              will be placed.
+            - Directory to change into where the extracted file / folder will be placed.
             - By default this is current working directory.
         requied: false
-        type: str
+        default: null
+        type: path
 
     owner:
         description:
             - Name of the owner for all the extracted files.
-            - Set by UNIX's chown utility.
+            - Set by UNIX's M(chown) utility.
         required: false
-        type: str
+        default: null
+        type: string
 
     group:
         description:
             - Name of the group for all the extracted files.
-            - Set by UNIX's chown utility.
+            - Set by UNIX's M(chown) utility.
         required: false
-        type: str
+        default: null
+        type: string
 
     force:
         description:
-            - Runs the container image extraction even if previously extracted
-              file / folder exists.
+            - Runs the container image extraction even if previously extracted file / folder exists.
         required: false
-        type: bool
+        default: false
+        type: boolean
 
 author:
     - Dee'Kej (@deekej)
@@ -123,13 +124,13 @@ from ansible.module_utils.basic import AnsibleModule
 def run_module():
     # Ansible Module initialization:
     module_args = dict(
-        image=dict(type='str', required=True),
-        src=dict(type='str', required=True),
-        dest=dict(type='str', required=False, default=None),
-        chdir=dict(type='str', required=False, default=None),
-        owner=dict(type='str', required=False, default=None),
-        group=dict(type='str', required=False, default=None),
-        force=dict(type='bool', required=False, default=False)
+        image = dict(type='raw',  required=True),
+        src   = dict(type='path', required=True),
+        dest  = dict(type='path', required=False, default=None),
+        chdir = dict(type='path', required=False, default=None),
+        owner = dict(type='str',  required=False, default=None),
+        group = dict(type='str',  required=False, default=None),
+        force = dict(type='bool', required=False, default=False)
     )
 
     # Parsing of Ansible Module arguments:
