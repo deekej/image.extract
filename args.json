@@ -1,0 +1,14 @@
+{
+  "ANSIBLE_MODULE_ARGS": {
+    "image":  "/var/home/deekej/devel/github/ansible/image.extract/artifacts/rhacs-main-container-3.73.0-4.tar",
+    "paths":  [
+      {
+        "src":    "/assets/downloads/cli/roxctl-windows-amd64.exe",
+        "owner":  "deekej",
+        "group":  "deekej"
+      }
+    ],
+    "chdir":  "/var/home/deekej/devel/github/ansible/image.extract/artifacts",
+    "force":  true
+  }
+}
