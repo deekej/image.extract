@@ -300,7 +300,8 @@ def extract_path(src, dest=None, force=False):
             members_list = dir_members(image_layer, src, dest, globbed)
 
             # Extract the source path from container image into specified destination:
-            image_layer.extractall(members=members_list)
+            image_layer.extractall(members=members_list,
+                                   filter=tarfile.fully_trusted_filter)
 
             # Return just the extracted paths, not the list of tarfile objects:
             return [member.path for member in members_list]
