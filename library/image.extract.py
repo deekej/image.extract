@@ -158,7 +158,6 @@ from ansible.module_utils.basic import AnsibleModule
 module      = None
 image       = None
 manifest    = None
-image_layer = None
 
 # ---------------------------------------------------------------------
 
@@ -253,7 +252,7 @@ def dir_members(tarfile, src, dest, globbed=False):
 # Returns empty list when no extraction was done (i.e. file already exists).
 # Returns list of paths for extracted files / folders otherwise.
 def extract_path(src, dest=None, force=False):
-    global module, image, manifest, image_layer
+    global module, image, manifest
 
     dest_file_exists = False
 
