@@ -215,7 +215,11 @@ def dir_members(tarfile, src, dest, globbed=False):
     else:
         subpath_len = len(dirname(normpath(src)))
 
-    # Compensate for path '/' divider for any subfolders / files inside the folder:
+    # We need to remove any trailing '/' characters, otherwise the subpath_len would be
+    # off by one - resulting e.g. into: 'releases/' -> 'eleases/'
+    src = src.removesuffix('/')
+
+    # Compensate for path '/' divider for any subfolders / files inside the path:
     if '/' in src:
         subpath_len += 1
 
@@ -261,7 +265,7 @@ def extract_path(src, dest=None, force=False):
     #       the destination files no matter what. I.e. globbing automatically
     #       assumes the 'force' flag to be set to 'true'...
     if src.endswith('/*'):
-        src = src[:-2]              # To not confuse the tarfile.getmember() function.
+        src = src.removesuffix('/*')    # To not confuse the tarfile.getmember() function.
         globbed = force = True
     else:
         globbed = False
